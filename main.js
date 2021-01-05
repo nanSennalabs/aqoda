@@ -73,6 +73,14 @@ function main() {
         console.log(availableRooms.join(', '))
         return
 
+      case 'list_guest':
+        const allGuests = Object.values(room)
+          .filter((booking) => !booking.isAvailable)
+          .sort((a, b) => a.key - b.key)
+          .map((booking) => booking.name)
+        console.log(allGuests.join(', '))
+        return
+
       default:
         console.log(`No command '${command.name}'`)
         return
