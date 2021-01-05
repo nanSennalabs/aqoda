@@ -11,6 +11,7 @@ function main() {
   const filename = "input.txt";
   const commands = getCommandsFromFileName(filename);
   let keycard = 0;
+  let keycard = {};
   let room = {};
 
   commands.forEach(command => {
@@ -18,8 +19,11 @@ function main() {
       case "create_hotel":
         const [floor, roomPerFloor] = command.params;
         const hotel = { floor, roomPerFloor };
+        const tatolRoom = floor * roomPerFloor;
 
-        keycard = floor * roomPerFloor;
+        for (let k = 1; k <= tatolRoom; k++) {
+          keycard = { ...keycard, [k]: { isAvailable: true } };
+        }
 
         for (let i = 1; i <= floor; i++) {
           for (let j = 1; j <= roomPerFloor; j++) {
