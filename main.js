@@ -81,6 +81,14 @@ function main() {
         console.log(allGuests.join(', '))
         return
 
+      case 'get_guest_in_room':
+        const [roomNumber] = command.params
+        const bookingRoom = Object.values(room).find(
+          (booking) => booking.id === roomNumber
+        )
+        console.log(bookingRoom.name)
+        return
+
       default:
         console.log(`No command '${command.name}'`)
         return
