@@ -15,6 +15,7 @@ function main() {
   const commands = getCommandsFromFileName(filename)
 
   commands.forEach((command) => {
+    if (!command.name) return
     switch (command.name) {
       case 'create_hotel':
         const [floor, roomPerFloor] = command.params
@@ -73,6 +74,7 @@ function main() {
         return
 
       default:
+        console.log(`No command '${command.name}'`)
         return
     }
   })
