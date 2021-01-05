@@ -10,6 +10,7 @@ class Command {
 function main() {
   const filename = "input.txt";
   const commands = getCommandsFromFileName(filename);
+  let keycard = 0;
   let room = {};
 
   commands.forEach(command => {
@@ -18,6 +19,7 @@ function main() {
         const [floor, roomPerFloor] = command.params;
         const hotel = { floor, roomPerFloor };
 
+        keycard = floor * roomPerFloor;
 
         for (let i = 1; i <= floor; i++) {
           for (let j = 1; j <= roomPerFloor; j++) {
