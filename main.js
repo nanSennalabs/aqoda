@@ -8,14 +8,28 @@ class Command {
 }
 
 function main() {
-  const filename = 'input.txt'
-  const commands = getCommandsFromFileName(filename)
+  const filename = "input.txt";
+  const commands = getCommandsFromFileName(filename);
+  let room = {};
 
   commands.forEach(command => {
     switch (command.name) {
-      case 'create_hotel':
-        const [floor, roomPerFloor] = command.params
-        const hotel = { floor, roomPerFloor }
+      case "create_hotel":
+        const [floor, roomPerFloor] = command.params;
+        const hotel = { floor, roomPerFloor };
+
+
+        for (let i = 1; i <= floor; i++) {
+          for (let j = 1; j <= roomPerFloor; j++) {
+            room = {
+              ...room,
+              [`${i}0${j}`]: {
+                isAvailable: true,
+                info: {},
+              },
+            };
+          }
+        }
 
         console.log(
           `Hotel created with ${floor} floor(s), ${roomPerFloor} room(s) per floor.`
