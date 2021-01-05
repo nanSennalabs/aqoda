@@ -65,6 +65,13 @@ function main() {
 
         return
 
+      case 'list_available_rooms':
+        const availableRooms = Object.keys(room).filter(
+          (roomNumber) => room[roomNumber].isAvailable
+        )
+        console.log(availableRooms.join(', '))
+        return
+
       default:
         return
     }
