@@ -56,7 +56,7 @@ function main() {
 
         if (booingRoom.name !== guestName) {
           console.log(
-            `Cannot book room ${roomId} for ${guestName}, The room is currently booked by ${booingRoom.name}.`
+            `Only ${booingRoom.name} can checkout with keycard number ${booingRoom.key}.`
           );
         } else {
           console.log(`Room ${roomId} is checkout.`);
