@@ -97,6 +97,10 @@ function main() {
         console.log(guestByAge.join(', '))
         return
 
+      case 'list_guest_by_floor':
+        // TODO: implement (same as list_guest_by_age but use floor)
+        return
+
       default:
         console.log(`No command '${command.name}'`)
         return
@@ -121,7 +125,8 @@ function checkRoom(data, key) {
       name,
       age,
       isAvailable: false,
-      key: parseInt(key)
+      key: parseInt(key),
+      floor: parseInt(roomId[0])
     }
     keycard[key].isAvailable = false
     console.log(
