@@ -130,6 +130,7 @@ function main() {
         const roomsEmpty = currentRooms.filter(key => room[key].isAvailable);
 
         if (currentRooms.length === roomsEmpty.length) {
+          let keycardsNumber = [];
           roomsEmpty.forEach(key => {
             const newKeycard = Object.keys(keycard).find(
               key => keycard[key].isAvailable
@@ -144,10 +145,17 @@ function main() {
               floor: parseInt(key.toString()[0])
             };
             keycard[newKeycard].isAvailable = false;
+            keycardsNumber.push(newKeycard);
           });
+          console.log(
+            `Room ${roomsEmpty.join(
+              ", "
+            )} are booked with keycard number ${keycardsNumber.join(", ")}`
+          );
         } else {
           console.log(`Cannot book floor ${floor} for ${guestName}.`);
         }
+
         return;
 
       default:
