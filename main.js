@@ -39,11 +39,32 @@ function main() {
           `Hotel created with ${floor} floor(s), ${roomPerFloor} room(s) per floor.`
         )
         return
+
       case 'book':
         const key = Object.keys(keycard).find(
           (keyNumber) => keycard[keyNumber].isAvailable
         )
         checkRoom(command.params, key)
+        return
+
+      case 'checkout':
+        const [keyNumber, guestName] = command.params
+        const booingRoom =
+          Object.values(room).find((booking) => booking.key === keyNumber) || {}
+        const { id: roomId } = booingRoom
+
+        if (booingRoom.name !== guestName) {
+          console.log(
+            `Cannot book room ${roomId} for ${guestName}, The room is currently booked by ${booingRoom.name}.`
+          )
+        } else {
+          console.log(`Room ${roomId} is checkout.`)
+          room[roomId] = { isAvailable: true }
+          keycard[keyNumber.toString()] = { isAvailable: true }
+        }
+
+        return
+
       default:
         return
     }
@@ -67,7 +88,7 @@ function checkRoom(data, key) {
       name,
       age,
       isAvailable: false,
-      key
+      key: parseInt(key)
     }
     keycard[key].isAvailable = false
     console.log(
