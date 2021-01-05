@@ -106,6 +106,21 @@ function main() {
 
         return;
 
+      case "checkout_guest_by_floor":
+        var [floor] = command.params;
+        let roomsCheckout = [];
+
+        Object.values(room).forEach(value => {
+          if (value.floor === floor) {
+            keycard[value.key] = { isAvailable: true };
+            room[value.id] = { isAvailable: true };
+            roomsCheckout.push(value.id);
+          }
+        });
+
+        console.log(`Room ${roomsCheckout.join(", ")} are checkout.`);
+        return;
+
       default:
         console.log(`No command '${command.name}'`);
         return;
