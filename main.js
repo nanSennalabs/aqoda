@@ -49,7 +49,7 @@ function main() {
         return;
 
       case "checkout":
-        const [keyNumber, guestName] = command.params;
+        var [keyNumber, guestName] = command.params;
         const booingRoom =
           Object.values(room).find(booking => booking.key === keyNumber) || {};
         const { id: roomId } = booingRoom;
@@ -60,7 +60,7 @@ function main() {
           );
         } else {
           console.log(`Room ${roomId} is checkout.`);
-          room[roomId] = { isAvailable: true };
+          room[roomId] = { isAvailable: true, floor: room[roomId].floor };
           keycard[keyNumber.toString()] = { isAvailable: true };
         }
 
@@ -100,7 +100,7 @@ function main() {
       case "list_guest_by_floor":
         var [floor] = command.params;
         const guestByFloor = Object.values(room)
-          .filter(booking => booking.floor === floor)
+          .filter(booking => booking.floor === floor && booking.name)
           .map(booking => booking.name);
         console.log(guestByFloor.join(", "));
 
@@ -111,14 +111,43 @@ function main() {
         let roomsCheckout = [];
 
         Object.values(room).forEach(value => {
-          if (value.floor === floor) {
+          if (value.floor === floor && value.id) {
             keycard[value.key] = { isAvailable: true };
-            room[value.id] = { isAvailable: true };
+            room[value.id] = { isAvailable: true, floor };
             roomsCheckout.push(value.id);
           }
         });
 
         console.log(`Room ${roomsCheckout.join(", ")} are checkout.`);
+        return;
+
+      case "book_by_floor":
+        var [floor, guestName, guestAge] = command.params;
+        const currentRooms = Object.keys(room).filter(
+          value => room[value].floor === floor
+        );
+
+        const roomsEmpty = currentRooms.filter(key => room[key].isAvailable);
+
+        if (currentRooms.length === roomsEmpty.length) {
+          roomsEmpty.forEach(key => {
+            const newKeycard = Object.keys(keycard).find(
+              key => keycard[key].isAvailable
+            );
+
+            room[key] = {
+              id: key,
+              name: guestName,
+              age: guestAge,
+              isAvailable: false,
+              key: parseInt(newKeycard),
+              floor: parseInt(key.toString()[0])
+            };
+            keycard[newKeycard].isAvailable = false;
+          });
+        } else {
+          console.log(`Cannot book floor ${floor} for ${guestName}.`);
+        }
         return;
 
       default:
